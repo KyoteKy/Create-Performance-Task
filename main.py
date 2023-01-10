@@ -1,5 +1,11 @@
 import random
 
+# Wordle game in Python made but Kyle W. for AP College Board. It is text-based and has as much customizability
+# as I can put in it(maybe in the future if it gets a ui I'll add skins n stuff).
+
+# TODO finish the letter check and print which letters were guessed correctly, finish breaking all loops upon finish/exit,
+# add excteption handling to every user input.
+
 # function below prompts the user for a custom word list. If none is provided, the default word list is used. TODO: GET BETTER DEFAULT LIST
 def get_word_list():
     
@@ -58,7 +64,7 @@ def play_game():
                     correct[x] = 1
                 else:
                     correct[x] = 0
-
+                    
 
             if correct == [1, 1, 1, 1, 1]:
                 ("You have guessed right! Would you like to reset? yes or no: ")
