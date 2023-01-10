@@ -1,5 +1,4 @@
 import random
-
 # Wordle game in Python made but Kyle W. for AP College Board. It is text-based and has as much customizability
 # as I can put in it(maybe in the future if it gets a ui I'll add skins n stuff).
 
@@ -14,8 +13,7 @@ def get_word_list():
     while True:
         if custom_list == 'n' or custom_list == '' or custom_list == 'no':  
             print("Okay, the default word list will be used") 
-            return ['canal', 'brush', 'float', 'flame', 'favor', 'marry', 'lever',
-             'large', 'crack', 'crime', 'alien', 'alloy', 'fairy', 'hotel', 'laser', 'knock']
+            return ['canal', 'brush', 'float', 'flame', 'favor', 'marry', 'lever', 'large', 'crack', 'crime', 'alien', 'alloy', 'fairy', 'hotel', 'laser', 'knock']
 
         elif custom_list == 'y' or custom_list == 'yes':
             new_list = input("Please input your custom word list with no commas: ")
@@ -34,12 +32,8 @@ def choose_word(wlist):
 
 # function below is the main loop of the game. this is the only funtion to call other functions.
 def play_game():
-    stop = False
-
     while True:
-        # stop loop if desired
-        if stop == True:
-            break
+        
 
 
         # set up the chosen word
@@ -49,26 +43,57 @@ def play_game():
         for letter in word:
             sliced_word.append(letter)
 
-        # set up nimber of attempts and ask for initial guess
-        attempts = int(input("Please input how many attemts you would like. The default is 5 attempts."))
+        # set up number of attempts
+        while True: 
+            try:
+                attempts = int(input("Please input how many attemts you would like. The default is 5 attempts: "))
+                break
+            except ValueError:
+                print("Not a number. Please try again")
+        
+        # ask for initial guess and slice into list
         guess = str(input("Game is set up. Please enter your guess now: "))
         sliced_guess = []
         for l in guess:
             sliced_guess.append(guess)
 
         # loop for the actual guessing part
-        while True:
-            correct = [0, 0, 0, 0, 0]
+        for i in range(attempts):
+            output = ['-', '-', '-', '-', '-']
+            misplaced = []
+            print('word: '+str(sliced_word))
+            # check the guess for correct letters
             for x in range(5):
                 if guess[x] == word[x]:
-                    correct[x] = 1
+                    output[x] = word[x]
                 else:
-                    correct[x] = 0
-                    
+                    output[x] = '-'
 
-            if correct == [1, 1, 1, 1, 1]:
-                ("You have guessed right! Would you like to reset? yes or no: ")
+            #check the guess for correct letters in the wrong spot
+            for y in range(5):
+                exist_count = word.count(guess[y])
+                if exist_count > 0 and not guess[y] == word[y]:
+                    misplaced.append(guess[y])
+
+
+            # print correct and misplaced characters
+            print(output)
+            print("Misplaced letters: " + str(misplaced))
+            
+            # break guess loop if guess is correct
+            break_loop = False
+            if sliced_word == output:
+                reset = input("You have guessed right! Would you like to reset? yes or no: ")
+                if reset == 'yes' or reset == 'y':
+                    break
+                elif reset == 'no' or reset == '' or reset == 'n':
+                    return 0
+            else:
+                # ask for new guess
+                guess = str(input("Guess: "))
+        
 
 # main program body
 print("Welcome to Purdle, a text-based customizable version of the popular game Wordle in Python.")
 play_game()
+print("Thanks for playing!")
